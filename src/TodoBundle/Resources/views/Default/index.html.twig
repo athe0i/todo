@@ -1,0 +1,38 @@
+<html>
+	<head>
+<!-- 
+    '@AppBundle/Resources/public/js/lib/jquery/dist/jquery.min.js'
+    '@AppBundle/Resources/public/js/lib/jquery-ui/jquery-ui.min.js'
+    '@AppBundle/Resources/public/js/lib/angular/angular.min.js'
+    '@AppBundle/Resources/public/js/lib/angular-resource/angular-resource.min.js'
+    '@AppBundle/Resources/public/js/lib/angular-ui-router/release/angular-ui-router.min.js'
+    '@TodoBundle/Resources/public/js/todo/*'
+
+-->
+
+{% javascripts 
+	'public/js/lib/jquery.bundle.js'
+	'public/js/lib/angular.bundle.js'
+	'public/js/lib/materialize.bundle.js'
+	'public/js/app/app.bundle.js'
+	'public/js/app/todo.bundle.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% stylesheets
+	'@AppBundle/Resources/public/js/lib/Materialize/dist/css/materialize.min.css'
+	'@TodoBundle/Resources/public/css/todo/*'
+%}
+	<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
+	<body class="blue lighten-5">
+		<div ng-app>
+			<div ng-view></div>
+		</div>
+	</body>
+</html>

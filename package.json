@@ -1,0 +1,16 @@
+{
+	"name": "TODO app",
+	"description": "Another one TODO app. Just lulz and fun purposes."
+	"url" : "",
+	"email" : "",
+	"dependencies": {
+		"gulp": "latest",
+		"gulp-watch": "latest",
+		"gulp-concat": "latest",
+		"gulp-rename": "latest",
+		"gulp-uglify": "latest",
+		"gulp-minify-css": "latest",
+		"gulp-copy": "latest",
+		"bower": "latest"
+	}
+}
