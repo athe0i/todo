@@ -88,7 +88,7 @@ var taskConstructor = function(bundle){
 
 		if(bundle.watchable){
 			gulp.task(jsTaskName+"-watcher", function(){
-				return gulp.watch(bundle.paths, [jsTaskName]);
+				return gulp.watch(bundle.js_paths, [jsTaskName]);
 			});
 			watcherTasks.push(jsTaskName+"-watcher");
 		}
@@ -125,6 +125,8 @@ var taskConstructor = function(bundle){
 for(var bundleKey in bundles){
 	taskConstructor(bundles[bundleKey]);
 }
+
+console.log(watcherTasks);
 
 // tasks to build all js/tpl/css
 gulp.task("js-build", jsBuildTasks);
