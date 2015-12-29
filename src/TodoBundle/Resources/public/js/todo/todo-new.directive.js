@@ -1,10 +1,10 @@
 (function(){
 	'use strict';
-	angular.module("application.todo").directive("todonew", todoNewDirective);
+	angular.module("application.todo").directive("todoNewDirective", todoNewDirective);
 
 	function todoNewDirective(){
 		return {
-			restrict: "E",
+			restrict: "A",
 			templateUrl: "todo-new.html"
 		};
 	}

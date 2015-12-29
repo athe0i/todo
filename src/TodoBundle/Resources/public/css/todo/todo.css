@@ -1,0 +1,10 @@
+.entry-done{
+	text-decoration: line-through;
+	font-style: italic; 
+}
+
+.todo-list{
+	height: 40%;
+	overflow-y: auto;
+	border: none;
+}

@@ -11,10 +11,10 @@
 		$stateProvider
 			.state(
 				"todo",{
-					controller: "todoController as todoCtrl",
+					controller: "todoController as ctrl",
 					url: "/",
 					//templateUrl: "todo.html"
-					template: "<todo></todo>"
+					template: "<div todo-directive></div>"
 				}
 			);
 	};
