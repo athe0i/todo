@@ -68,12 +68,14 @@ var bundles = {
 var jsBuildTasks = [];
 var tplBuildTasks = [];
 var cssBuildTasks = [];
+var watcherTasks = [];
 
 var taskConstructor = function(bundle){
 	if(bundle.js_paths.length > 0){
 		// add task to build js bundle
+		var jsTaskName = "build-" + bundle.bundleName;
 		gulp.task(
-			"build-" + bundle.bundleName,
+			jsTaskName,
 			function(){
 				return gulp.src(bundle.js_paths)
 					.pipe(concat(bundle.bundleName + ".js"))
@@ -82,15 +84,23 @@ var taskConstructor = function(bundle){
 			}
 		);
 
-		jsBuildTasks.push("build-" + bundle.bundleName);
+		jsBuildTasks.push(jsTaskName);
+
+		if(bundle.watchable){
+			gulp.task(jsTaskName+"-watcher", function(){
+				return gulp.watch(bundle.paths, [jsTaskName]);
+			});
+			watcherTasks.push(jsTaskName+"-watcher");
+		}
 	}
 	if(bundle.css_paths && bundle.css_paths.length > 0){
 		// add task to build css
 	}
 	if(bundle.tpl_paths && bundle.tpl_paths){
 		// add task to build angular templates
+		var tplTaskName = "build-" + bundle.bundleName + "-tpl";
 		gulp.task(
-			"build-" + bundle.bundleName + "-tpl",
+			tplTaskName,
 			function(){
 				return gulp.src(bundle.tpl_paths)
 					.pipe(templateCache(bundle.bundleName + ".templates.js", {module: "application.todo", standalone: false}))
@@ -99,7 +109,14 @@ var taskConstructor = function(bundle){
 			}
 		);
 
-		tplBuildTasks.push("build-" + bundle.bundleName + "-tpl");
+		tplBuildTasks.push(tplTaskName);
+
+		if(bundle.watchable){
+			gulp.task(tplTaskName+"-watcher", function(){
+				return gulp.watch(bundle.tpl_paths, [tplTaskName]);
+			});
+			watcherTasks.push(tplTaskName+"-watcher");
+		}
 	}
 };
 
@@ -107,11 +124,13 @@ var taskConstructor = function(bundle){
 
 for(var bundleKey in bundles){
 	taskConstructor(bundles[bundleKey]);
-	//jsBuildTasks.push("build-" + bundles[bundleKey]["bundleName"]);
 }
 
-
+// tasks to build all js/tpl/css
 gulp.task("js-build", jsBuildTasks);
 gulp.task("tpl-build", tplBuildTasks);
+
+// watchers task
+gulp.task("watchers-build", watcherTasks);
 
 gulp.task('default', ["js-build", "tpl-build"]);
