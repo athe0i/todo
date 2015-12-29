@@ -5,7 +5,8 @@ var concat = require("gulp-concat");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 
-var minifyCSS = require("gulp-minify-css");
+var concatCss = require("gulp-concat-css");
+var minifyCss = require("gulp-minify-css");
 
 var templateCache = require("gulp-angular-templatecache");
 
@@ -14,7 +15,7 @@ var copy = require("gulp-copy");
 var path = {
 	lib: "src/AppBundle/Resources/public/js/lib/",
 	app: "src/AppBundle/Resources/public/js/app/",
-	todo: "src/TodoBundle/Resources/public/js/todo/",
+	todo: "src/TodoBundle/Resources/public/",
 	dest: "web/public/js/"
 };
 
@@ -53,12 +54,16 @@ var bundles = {
 	},
 	todo: {
 		bundleName: "todo.bundle",
+		tpl_module: "application.todo",
 		js_paths: [
-			path.todo + "/**/todo.module.js",
-			path.todo + "/**/*.js"
+			path.todo + "js/todo/todo.module.js",
+			path.todo + "js/todo/**/*.js"
 		],
 		tpl_paths: [
-			path.todo + "/**/*.html"
+			path.todo + "js/todo/**/*.html"
+		],
+		css_paths: [
+			path.todo + "css/todo/**/*.css"
 		],
 		dest: path.dest + "app/",
 		watchable: true
@@ -74,6 +79,7 @@ var taskConstructor = function(bundle){
 	if(bundle.js_paths.length > 0){
 		// add task to build js bundle
 		var jsTaskName = "build-" + bundle.bundleName;
+
 		gulp.task(
 			jsTaskName,
 			function(){
@@ -95,6 +101,26 @@ var taskConstructor = function(bundle){
 	}
 	if(bundle.css_paths && bundle.css_paths.length > 0){
 		// add task to build css
+		var cssTaskName = "build-" + bundle.bundleName + "-css";
+
+		gulp.task(
+			cssTaskName,
+			function(){
+				return gulp.src(bundle.css_paths)
+					.pipe(concatCss(bundle.bundleName + ".css"))
+					.pipe(gulp.dest(bundle.dest))
+				;
+			}
+		);
+
+		cssBuildTasks.push(cssTaskName);
+
+		if(bundle.watchable){
+			gulp.task(cssTaskName+"-watcher", function(){
+				return gulp.watch(bundle.css_paths, [cssTaskName]);
+			});
+			watcherTasks.push(cssTaskName+"-watcher");
+		}
 	}
 	if(bundle.tpl_paths && bundle.tpl_paths){
 		// add task to build angular templates
@@ -103,7 +129,9 @@ var taskConstructor = function(bundle){
 			tplTaskName,
 			function(){
 				return gulp.src(bundle.tpl_paths)
-					.pipe(templateCache(bundle.bundleName + ".templates.js", {module: "application.todo", standalone: false}))
+					.pipe(templateCache(bundle.bundleName + ".templates.js", {
+						module: bundle.tpl_module,
+						standalone: false}))
 					.pipe(gulp.dest(bundle.dest))
 				;
 			}
@@ -126,13 +154,12 @@ for(var bundleKey in bundles){
 	taskConstructor(bundles[bundleKey]);
 }
 
-console.log(watcherTasks);
-
 // tasks to build all js/tpl/css
 gulp.task("js-build", jsBuildTasks);
 gulp.task("tpl-build", tplBuildTasks);
+gulp.task("css-build", cssBuildTasks);
 
 // watchers task
 gulp.task("watchers-build", watcherTasks);
 
-gulp.task('default', ["js-build", "tpl-build"]);
+gulp.task('default', ["js-build", "tpl-build", "css-build"]);
