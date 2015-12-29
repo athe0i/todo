@@ -11,6 +11,7 @@
 		"gulp-uglify": "latest",
 		"gulp-minify-css": "latest",
 		"gulp-copy": "latest",
-		"bower": "latest"
+		"bower": "latest",
+		"gulp-angular-templatecache": "latest"
 	}
 }
