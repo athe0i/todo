@@ -1,18 +1,22 @@
 ( function(  ) {
 	'use strict';
 
-	angular.module("application.todo").config(configRouting);
+	angular.module("application.todo").config(config);
 
-	var configRouting = function($urlRouterProvider, $stateProvider){
-		$urlRouterProvider.otherwise("/todo");
+	config.$inject = ["$stateProvider", "$urlRouterProvider"];
+
+	function config($stateProvider, $urlRouterProvider){
+		$urlRouterProvider.otherwise("/");
 
 		$stateProvider
 			.state(
 				"todo",{
 					controller: "todoController as todoCtrl",
-					url: "/todo",
-					templateUrl: "/todo.html"
+					url: "/",
+					//templateUrl: "todo.html"
+					template: "<todo></todo>"
 				}
 			);
 	};
+
 } )();

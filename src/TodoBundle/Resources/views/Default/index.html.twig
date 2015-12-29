@@ -16,6 +16,7 @@
 	'public/js/lib/materialize.bundle.js'
 	'public/js/app/app.bundle.js'
 	'public/js/app/todo.bundle.js'
+	'public/js/app/todo.bundle.templates.js'
     %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
@@ -31,8 +32,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 	<body class="blue lighten-5">
-		<div ng-app>
-			<div ng-view></div>
+		<div ng-app="application.todo">
+			<div ui-view></div>
 		</div>
 	</body>
 </html>

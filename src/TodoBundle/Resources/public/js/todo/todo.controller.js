@@ -1,11 +1,27 @@
 ( function(  ) {
-	angular("application.todo").controller("todoController", todoController);
+	angular.module("application.todo").controller("todoController", todoController);
 
-	var todoController = function(){
+	todoController.$inject = ["$scope", "$state"];
+
+	function todoController($scope, $state){
 		// so no scopes here
 		var vm = this;
 
-		vm.entries = [];
+		vm.hello = "hello";
+
+		vm.entries = [{
+			id: 0,
+			name: "Fuck it!",
+			done: true
+		},{
+			id: 1,
+			name: "Fuck it! 1",
+			done: false
+		},{
+			id: 2,
+			name: "Fuck it! 2",
+			done: false
+		}];
 
 		vm.addTodo = addTodo;
 

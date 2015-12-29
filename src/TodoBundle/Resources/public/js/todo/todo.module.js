@@ -1,5 +1,6 @@
 ( function() {
 	'use strict';
 
-	var todo = angular.module("application.todo", []);
+	var todo = angular.module("application.todo", ["ui.router", "ngResource"]);
+	
 })();

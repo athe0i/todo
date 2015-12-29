@@ -1,0 +1,20 @@
+<div class="collection with-header hoverable">
+	<div class="collection-header center-align">TODO list:</div>
+	<div class="collection-item horizontal"  ng-repeat="entry in todoCtrl.entries">
+		<div>{{ entry.name }}</div>
+		<div class="horizontal">
+			<a class="btn-floating green accent-1">
+				<i class="material-icons">mode_edit</i>
+			</a>
+			<a class="btn-floating green accent-2" ng-if="!entry.done">
+				<i class="material-icons small">done</i>
+			</a>
+			<a class="btn-floating orange accent-2" ng-if="entry.done">
+				<i class="material-icons small">cached</i>
+			</a>
+			<a class="btn-floating red accent-2">
+				<i class="material-icons small">delete</i>
+			</a>
+		</div>
+	</div>
+</div>

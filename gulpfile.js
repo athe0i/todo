@@ -7,6 +7,8 @@ var uglify = require("gulp-uglify");
 
 var minifyCSS = require("gulp-minify-css");
 
+var templateCache = require("gulp-angular-templatecache");
+
 var copy = require("gulp-copy");
 
 var path = {
@@ -19,7 +21,7 @@ var path = {
 var bundles = {
 	jquery: {
 		bundleName: "jquery.bundle",
-		paths: [
+		js_paths: [
 			path.lib + "jquery/dist/jquery.min.js",
 			path.lib + "jquery-ui/jquery-ui.min.js"
 		],
@@ -27,8 +29,8 @@ var bundles = {
 	},
 	angular: {
 		bundleName: "angular.bundle",
-		paths: [
-			path.lib + "angular/angular.min.js",
+		js_paths: [
+			path.lib + "angular/angular.js",
 			path.lib + "angular-resource/angular-resource.min.js",
 			path.lib + "angular-ui-router/release/angular-ui-router.min.js"
 		],
@@ -36,23 +38,27 @@ var bundles = {
 	},
 	materialize: {
 		bundleName: "materialize.bundle",
-		paths: [
+		js_paths: [
 			path.lib + "Materialize/bin/materialize.js"
 		],
 		dest: path.dest + "lib/"
 	},
 	app: {
 		bundleName: "app.bundle",
-		paths: [
-			path.app + "/**/*"
+		js_paths: [
+			path.app + "/**/*.js"
 		],
 		dest: path.dest + "app/",
 		watchable: true
 	},
 	todo: {
 		bundleName: "todo.bundle",
-		paths: [
-			path.todo + "/**/*"
+		js_paths: [
+			path.todo + "/**/todo.module.js",
+			path.todo + "/**/*.js"
+		],
+		tpl_paths: [
+			path.todo + "/**/*.html"
 		],
 		dest: path.dest + "app/",
 		watchable: true
@@ -60,25 +66,52 @@ var bundles = {
 };
 
 var jsBuildTasks = [];
-// bind bundle config scope for this
+var tplBuildTasks = [];
+var cssBuildTasks = [];
+
 var taskConstructor = function(bundle){
-	console.log("creating task: ");
-	gulp.task(
-		"build-" + bundle.bundleName,
-		function(){
-			console.log("building bundle: ", bundle);
-			return gulp.src(bundle.paths)
-				.pipe(concat(bundle.bundleName + ".js"))
-				.pipe(gulp.dest(bundle.dest))
-			;
-		}
-	);
+	if(bundle.js_paths.length > 0){
+		// add task to build js bundle
+		gulp.task(
+			"build-" + bundle.bundleName,
+			function(){
+				return gulp.src(bundle.js_paths)
+					.pipe(concat(bundle.bundleName + ".js"))
+					.pipe(gulp.dest(bundle.dest))
+				;
+			}
+		);
+
+		jsBuildTasks.push("build-" + bundle.bundleName);
+	}
+	if(bundle.css_paths && bundle.css_paths.length > 0){
+		// add task to build css
+	}
+	if(bundle.tpl_paths && bundle.tpl_paths){
+		// add task to build angular templates
+		gulp.task(
+			"build-" + bundle.bundleName + "-tpl",
+			function(){
+				return gulp.src(bundle.tpl_paths)
+					.pipe(templateCache(bundle.bundleName + ".templates.js", {module: "application.todo", standalone: false}))
+					.pipe(gulp.dest(bundle.dest))
+				;
+			}
+		);
+
+		tplBuildTasks.push("build-" + bundle.bundleName + "-tpl");
+	}
 };
+
+
 
 for(var bundleKey in bundles){
 	taskConstructor(bundles[bundleKey]);
-	jsBuildTasks.push("build-" + bundles[bundleKey]["bundleName"]);
+	//jsBuildTasks.push("build-" + bundles[bundleKey]["bundleName"]);
 }
 
 
 gulp.task("js-build", jsBuildTasks);
+gulp.task("tpl-build", tplBuildTasks);
+
+gulp.task('default', ["js-build", "tpl-build"]);
