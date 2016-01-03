@@ -6,21 +6,23 @@
 		return {
 			restrict: "A",
 			templateUrl: "todo-entry.html",
+			controller: "todoEntryController",
+			controllerAs: "ctrl",
+			scope: {
+				entry: "="
+			},
 			link: function(scope, element, attrs){
-				var actionPanelEl = $(element.context).find(".actions-panel");
+				scope.showEdit = function(){
+					element.find(".entry-text").hide();
+					element.find(".entry-edit").show();
+				};
 
-				$(element.context).find(".edit-btn").click(function(event){
-					actionPanelEl.toggle("scale", {
-						direction: "horizontal",
-						scale: "both",
-						duration: 400,
-						origin: ["left", "right"]
-					});
-
-					event.preventDefault();
-					event.stopPropagation();
-				});
-			}
+				scope.hideEdit = function(){
+					element.find(".entry-text").show();
+					element.find(".entry-edit").hide();
+				};
+			},
+			bindTo: "controller"
 		};
 	}
 })();

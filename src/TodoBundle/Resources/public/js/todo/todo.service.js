@@ -24,6 +24,7 @@
 			getList: getList,
 			addEntry: addEntry,
 			doneEntry: doneEntry,
+			saveEntry: saveEntry,
 			undoneEntry: undoneEntry
 		};
 
@@ -48,6 +49,10 @@
 			}
 
 			return this.getList();
+		}
+
+		function saveEntry(entry){
+			
 		}
 
 		function validateEntry(entry){
