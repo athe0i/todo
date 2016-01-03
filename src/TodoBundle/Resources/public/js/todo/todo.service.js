@@ -3,9 +3,9 @@
 
 	angular.module("application.todo").factory("todoService", todoService);
 
-	//messages.$inject = ["application.toastDirective"];
+	todoService.$inject = ["messagesService"];
 
-	function todoService(){
+	function todoService(messagesService){
 		var entityList = [{
 				id: 0,
 				name: "Fuck it!",
@@ -32,13 +32,35 @@
 		}
 
 		function addEntry(entryText){
-			entityList.push({
+			var entry = {
 				id: entityList.length,
 				name: entryText,
 				done: false
-			});
+			};
+
+			var errors = validateEntry(entry);
+
+			if(errors.length == 0){
+				entityList.push(entry);
+			}
+			else{
+				messagesService.toast("Error in todo: " + errors.join("<br>"), {cls: "red accent-1"});
+			}
 
 			return this.getList();
+		}
+
+		function validateEntry(entry){
+			var errors = [];
+
+			if(!entry.id || !isFinite(entry.id)){
+				errors.push("Wrong TODO id.");
+			}
+			if(!entry.name || !entry.name.length){
+				errors.push("Could not add empty TODO.");
+			}
+
+			return errors;
 		}
 
 		function doneEntry(entry){

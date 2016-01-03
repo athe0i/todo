@@ -33,7 +33,6 @@
 			console.log("get list of todo entries");
 		};
 
-
 		vm.addTodo = addTodo;
 
 		vm.editTodo = editTodo;

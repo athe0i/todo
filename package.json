@@ -1,8 +1,8 @@
 {
-	"name": "TODO app",
+	"name": "TODOapp",
 	"description": "Another one TODO app. Just lulz and fun purposes.",
-	"url" : "",
-	"email" : "",
+	"url": "",
+	"email": "",
 	"dependencies": {
 		"gulp": "latest",
 		"gulp-watch": "latest",
@@ -12,6 +12,7 @@
 		"gulp-minify-css": "latest",
 		"gulp-copy": "latest",
 		"bower": "latest",
-		"gulp-angular-templatecache": "latest"
+		"gulp-angular-templatecache": "latest",
+		"gulp-concat-css": "~2.2.0"
 	}
 }

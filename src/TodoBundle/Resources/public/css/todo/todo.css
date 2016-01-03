@@ -8,3 +8,10 @@
 	overflow-y: auto;
 	border: none;
 }
+
+.actions-panel{
+	display: none;
+	width: 200px;
+	height: 48px;
+	overflow: hidden;
+}

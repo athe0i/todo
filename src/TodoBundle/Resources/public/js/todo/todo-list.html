@@ -1,20 +1,8 @@
 <div class="collection with-header hoverable todo-list">
 	<div class="collection-header center-align">TODO list:</div>
-	<div class="collection-item horizontal"  ng-repeat="entry in ctrl.entries">
-		<div class="{{entry.done ? 'entry-done': ''}}">{{ entry.name }}</div>
-		<div class="horizontal">
-			<a class="btn-floating green accent-1" ng-click="ctrl.editTodo(entry)">
-				<i class="material-icons">mode_edit</i>
-			</a>
-			<a class="btn-floating green accent-2" ng-if="!entry.done" ng-click="ctrl.doneTodo(entry)">
-				<i class="material-icons small">done</i>
-			</a> 
-			<a class="btn-floating orange accent-2" ng-if="entry.done" ng-click="ctrl.undoneTodo(entry)">
-				<i class="material-icons small">cached</i>
-			</a>
-			<a class="btn-floating red accent-2" ng-click="ctrl.removeTodo(entry)">
-				<i class="material-icons small">delete</i>
-			</a>
-		</div>
+	<div todo-entry
+		 data-entry="entry"
+		 class="collection-item horizontal"
+		 ng-repeat="entry in ctrl.entries">
 	</div>
 </div>
