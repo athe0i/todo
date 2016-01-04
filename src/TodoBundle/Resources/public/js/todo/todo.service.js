@@ -61,14 +61,6 @@
 				return entry;
 			}
 
-			entityList = entityList.map(function(listEntry){
-				if(listEntry.id == newEntry.id){
-					return newEntry;
-				}
-
-				return listEntry;
-			});
-
 			entry = newEntry;
 			return newEntry;
 		}

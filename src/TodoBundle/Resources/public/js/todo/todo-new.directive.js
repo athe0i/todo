@@ -5,7 +5,11 @@
 	function todoNewDirective(){
 		return {
 			restrict: "A",
-			templateUrl: "todo-new.html"
+			templateUrl: "todo-new.html",
+			scope: {},
+			controller: "todoNewController",
+			controllerAs: "ctrl",
+			bindTo: "controller"
 		};
 	}
 })();
