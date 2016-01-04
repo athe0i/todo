@@ -7,7 +7,10 @@
 		var vm = this;
 
 		var editTodo = function(entry){
-			todoService.editEntry(entry);
+			var newEntry = todoService.saveEntry(entry);
+			entry.name = newEntry.name;
+
+			return entry;
 		};
 
 		var removeTodo = function(){

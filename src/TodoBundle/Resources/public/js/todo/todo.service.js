@@ -45,20 +45,42 @@
 				entityList.push(entry);
 			}
 			else{
-				messagesService.toast("Error in todo: " + errors.join("<br>"), {cls: "red accent-1"});
+				showErrors(errors);
 			}
 
 			return this.getList();
 		}
 
 		function saveEntry(entry){
-			
+			var newEntry = angular.copy(entry);
+			newEntry.name = newEntry.name_new;
+			var errors = validateEntry(newEntry);
+
+			if(errors.length > 0){
+				showErrors(errors);
+				return entry;
+			}
+
+			entityList = entityList.map(function(listEntry){
+				if(listEntry.id == newEntry.id){
+					return newEntry;
+				}
+
+				return listEntry;
+			});
+
+			entry = newEntry;
+			return newEntry;
+		}
+
+		function showErrors(errors){
+			messagesService.toast("Error in todo: " + errors.join("<br>"), {cls: "red accent-1"});
 		}
 
 		function validateEntry(entry){
 			var errors = [];
 
-			if(!entry.id || !isFinite(entry.id)){
+			if(entry.id !== 0 && (!entry.id || !isFinite(entry.id))){
 				errors.push("Wrong TODO id.");
 			}
 			if(!entry.name || !entry.name.length){

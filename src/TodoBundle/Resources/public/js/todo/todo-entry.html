@@ -1,7 +1,15 @@
 <div class="{{entry.done ? 'entry-done': ''}} entry-text">{{ entry.name }}</div>
 <div class="entry-edit" style="display: none;">
 	<div class="input-field">
-		<input type="text" ng-bind="entry.name-new" value="{{entry.name}}"/>
+		<input type="text" ng-model="entry.name_new"/>
+	</div>
+	<div class="horizontal edit-actions">
+		<a class="btn-floating green accent-2 btn-small" ng-click="ctrl.editTodo(entry);hideEdit();">
+			<i class="material-icons">done</i>
+		</a>
+		<a class="btn-floating red accent-2 btn-small" ng-click="hideEdit()">
+			<i class="material-icons">clear</i>
+		</a>
 	</div>
 </div>
 <div style="position: relative;">
